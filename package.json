@@ -22,15 +22,16 @@
       }
     }
   },
-  "packageDeps": [
+  "package-deps": [
     "platformio-ide-terminal"
   ],
   "dependencies": {
+    "atom-package-deps": "4.6.1",
     "fs-plus": "^3.0.1",
-    "promisificator": "4.0.0",
-    "atom-package-deps": "4.6.1"
+    "promisificator": "^4.0.0"
   },
   "devDependencies": {
+    "eslint": "4.15.0",
     "atom-jasmine2-test-runner": "^1.3.0"
   }
 }
