@@ -1,7 +1,7 @@
 {
   "name": "terminal-commands",
   "main": "./lib/terminal-commands",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "description": "Setup commands to run in the terminal",
   "keywords": [
     "atom",
