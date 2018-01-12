@@ -17,7 +17,8 @@
 		}
 	},
 	"globals": {
-		"atom": true
+		"atom": true,
+		"snapshotResult": true
 	},
 	"extends": "eslint:recommended",
 	"rules": {
