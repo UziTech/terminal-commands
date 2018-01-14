@@ -1,3 +1,7 @@
+## 1.0.0
+
+-   Add tests
+
 ## 0.2.0
 
 -   Add setting for config file
