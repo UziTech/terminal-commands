@@ -119,6 +119,7 @@ describe("terminal-commands", function () {
 
 			await createConfig(this.configFolder, "terminal-commands.json", {"test:json2": "test json2"});
 
+			await this.terminalCommands.isModified([{action: "modified"}]);
 			await loaded.promise;
 
 			expect("test:json").not.toBeARegisteredCommand();
@@ -131,6 +132,11 @@ describe("terminal-commands", function () {
 
 			await promisify(fs.unlink)(path.join(this.configFolder, "terminal-commands.json"));
 
+			try {
+				await this.terminalCommands.isModified([{action: "deleted"}]);
+			} catch (err) {
+				// this should error
+			}
 			await unwatch.promise;
 
 			expect("test:json").not.toBeARegisteredCommand();
