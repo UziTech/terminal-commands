@@ -11,14 +11,14 @@ require("./toBeARegisteredCommand");
 async function createConfig(configFolder, filename, contents) {
 	const absolutePath = path.join(configFolder, filename);
 	switch (path.extname(filename)) {
-	case ".json":
-		await promisify(fs.writeFile)(absolutePath, JSON.stringify(contents));
-		break;
-	case ".js":
-	case ".coffee":
-		await promisify(fs.writeFile)(absolutePath, `module.exports=${JSON.stringify(contents)}`);
-		break;
-	default:
+		case ".json":
+			await promisify(fs.writeFile)(absolutePath, JSON.stringify(contents));
+			break;
+		case ".js":
+		case ".coffee":
+			await promisify(fs.writeFile)(absolutePath, `module.exports=${JSON.stringify(contents)}`);
+			break;
+		default:
 		// do nothing
 	}
 
@@ -28,12 +28,13 @@ async function createConfig(configFolder, filename, contents) {
 describe("terminal-commands", function () {
 	beforeEach(async function () {
 		this.configFolder = await promisify(temp.mkdir)("terminal-commands-");
+		atom.project.setPaths([this.configFolder]);
 		atom.config.set("terminal-commands.configFile", path.join(this.configFolder, "not-exist.json"));
 		this.terminalCommands = (await atom.packages.activatePackage("terminal-commands")).mainModule;
 	});
 	afterEach(async function () {
-		await atom.packages.deactivatePackage("terminal-commands");
 		await promisify(temp.cleanup)();
+		await atom.reset();
 	});
 
 	describe("on activate", function () {
@@ -181,15 +182,18 @@ describe("terminal-commands", function () {
 				"test:file": "test ${file}",
 				"test:files": "test ${files}",
 				"test:dir": "test ${dir}",
+				"test:project": "test ${project}",
 			}));
 
 			this.terminalCommands.consumeRunInTerminal({
 				run: jasmine.createSpy()
 			});
 
+			this.dir = path.join(this.configFolder, "testdir");
+
 			this.files = [
-				path.join(this.configFolder, "test1.js"),
-				path.join(this.configFolder, "test2.js"),
+				path.join(this.configFolder, "testdir", "test1.js"),
+				path.join(this.configFolder, "testdir", "test2.js"),
 			];
 
 			spyOn(this.terminalCommands, "getPaths").and.returnValues(this.files);
@@ -235,7 +239,24 @@ describe("terminal-commands", function () {
 
 			await this.dispatch.promise;
 
+			expect(this.terminalCommands.terminal.run).toHaveBeenCalledWith([`test ${this.dir}`]);
+		});
+		it("should replace projectPlaceholder", async function () {
+			atom.commands.dispatch(atom.views.getView(atom.workspace), "test:project");
+
+			await this.dispatch.promise;
+
 			expect(this.terminalCommands.terminal.run).toHaveBeenCalledWith([`test ${this.configFolder}`]);
+		});
+		it("should error if no project to replace projectPlaceholder", async function () {
+			atom.project.setPaths([]);
+			spyOn(atom.notifications, "addError");
+			atom.commands.dispatch(atom.views.getView(atom.workspace), "test:project");
+
+			await this.dispatch.promise;
+
+			expect(atom.notifications.addError).toHaveBeenCalled();
+			expect(this.terminalCommands.terminal.run).not.toHaveBeenCalled();
 		});
 	});
 });
