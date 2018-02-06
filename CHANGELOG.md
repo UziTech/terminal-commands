@@ -1,3 +1,7 @@
+## 1.1.1
+
+-   Fix deprecation warning
+
 ## 1.1.0
 
 -   Add Project Placeholder setting
