@@ -27,7 +27,7 @@ Setup commands to run in the terminal from the command palette.
 
 ## Placeholders
 
-Certain placeholders can be used so commands can use current command target in the commands.
+Placeholders can be used so commands can use current command target in the commands.
 The command target will be the active editor if from the command palette, or selected files if from the tree-view context menu.
 
 -   `${file}` - Replaced with the first target file path
