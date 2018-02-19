@@ -24,3 +24,13 @@ Setup commands to run in the terminal from the command palette.
 ![image](https://user-images.githubusercontent.com/97994/34899488-dde60bf4-f7be-11e7-98bd-71c8d922fa6b.png)
 
 ![image](https://user-images.githubusercontent.com/97994/34899525-1704ef86-f7bf-11e7-9088-d12d63ea2732.png)
+
+## Placeholders
+
+Certain placeholders can be used so commands can use current command target in the commands.
+The command target will be the active editor if from the command palette, or selected files if from the tree-view context menu.
+
+-   `${file}` - Replaced with the first target file path
+-   `${files}` - Replaced with the targets file paths separated by space
+-   `${dir}` - Replaced with the first target directory path
+-   `${project}` - Replaced with the first target file's project path
