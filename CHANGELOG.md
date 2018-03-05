@@ -1,3 +1,7 @@
+## 1.1.2
+
+-   Fix `Uncaught TypeError: Invalid attempt to destructure non-iterable instance` ([#2](https://github.com/UziTech/terminal-commands/issues/2))
+
 ## 1.1.1
 
 -   Fix deprecation warning
