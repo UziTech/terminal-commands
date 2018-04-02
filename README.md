@@ -21,9 +21,15 @@ Setup commands to run in the terminal from the command palette.
 }
 ```
 
+---
+
 ![image](https://user-images.githubusercontent.com/97994/34899488-dde60bf4-f7be-11e7-98bd-71c8d922fa6b.png)
 
+---
+
 ![image](https://user-images.githubusercontent.com/97994/34899525-1704ef86-f7bf-11e7-9088-d12d63ea2732.png)
+
+---
 
 ## Placeholders
 
