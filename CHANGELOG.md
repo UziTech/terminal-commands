@@ -1,3 +1,8 @@
+## 1.2.0 (2018-04-03)
+
+-   Add key binding option to commands
+-   Allow selector option for commands
+
 ## 1.1.2
 
 -   Fix `Uncaught TypeError: Invalid attempt to destructure non-iterable instance` ([#2](https://github.com/UziTech/terminal-commands/issues/2))
