@@ -4,6 +4,7 @@ import promisificator, { promisify } from "promisificator";
 import fs from "fs";
 import path from "path";
 import temp from "temp";
+import terminalCommands from "../lib/terminal-commands";
 temp.track();
 
 require("./toBeARegisteredCommand");
@@ -30,11 +31,10 @@ describe("terminal-commands", function () {
 		this.configFolder = await promisify(temp.mkdir)("terminal-commands-");
 		atom.project.setPaths([this.configFolder]);
 		atom.config.set("terminal-commands.configFile", path.join(this.configFolder, "not-exist.json"));
-		this.terminalCommands = (await atom.packages.activatePackage("terminal-commands")).mainModule;
+		await atom.packages.activatePackage("terminal-commands");
 	});
 	afterEach(async function () {
 		await promisify(temp.cleanup)();
-		await atom.reset();
 	});
 
 	describe("on activate", function () {
@@ -44,7 +44,7 @@ describe("terminal-commands", function () {
 
 		it("should not watch the configFile if it does not exist", async function () {
 			const unwatch = promisificator();
-			this.terminalCommands.onUnwatch(unwatch.callback);
+			terminalCommands.onUnwatch(unwatch.callback);
 			await unwatch.promise;
 		});
 
@@ -65,7 +65,7 @@ describe("terminal-commands", function () {
 			atom.config.set("terminal-commands.configFile", await createConfig(this.configFolder, "terminal-commands.json", {"test:json": "test json"}));
 
 			const loaded = promisificator();
-			this.terminalCommands.onLoaded(loaded.callback);
+			terminalCommands.onLoaded(loaded.callback);
 			await loaded.promise;
 
 			expect("test:json").toBeARegisteredCommand();
@@ -76,7 +76,7 @@ describe("terminal-commands", function () {
 			atom.config.set("terminal-commands.configFile", await createConfig(this.configFolder, "terminal-commands.js", {"test:js": "test js"}));
 
 			const loaded = promisificator();
-			this.terminalCommands.onLoaded(loaded.callback);
+			terminalCommands.onLoaded(loaded.callback);
 			await loaded.promise;
 
 			expect("test:js").toBeARegisteredCommand();
@@ -87,7 +87,7 @@ describe("terminal-commands", function () {
 			atom.config.set("terminal-commands.configFile", await createConfig(this.configFolder, "terminal-commands.coffee", {"test:coffee": "test coffee"}));
 
 			const loaded = promisificator();
-			this.terminalCommands.onLoaded(loaded.callback);
+			terminalCommands.onLoaded(loaded.callback);
 			await loaded.promise;
 
 			expect("test:coffee").toBeARegisteredCommand();
@@ -98,13 +98,13 @@ describe("terminal-commands", function () {
 			atom.config.set("terminal-commands.configFile", await createConfig(this.configFolder, "terminal-commands.json", {"test:json": "test json"}));
 
 			const watching = promisificator();
-			this.terminalCommands.onWatching(watching.callback);
+			terminalCommands.onWatching(watching.callback);
 			await watching.promise;
 		});
 
 		it("should load the new config on setting changed", async function () {
 			const loaded = promisificator();
-			this.terminalCommands.onLoaded(loaded.callback);
+			terminalCommands.onLoaded(loaded.callback);
 
 			atom.config.set("terminal-commands.configFile", await createConfig(this.configFolder, "terminal-commands.js", {"test:js": "test js"}));
 
@@ -116,11 +116,11 @@ describe("terminal-commands", function () {
 
 		it("should reload the config when modified", async function () {
 			const loaded = promisificator();
-			this.terminalCommands.onLoaded(loaded.callback);
+			terminalCommands.onLoaded(loaded.callback);
 
 			await createConfig(this.configFolder, "terminal-commands.json", {"test:json2": "test json2"});
 
-			await this.terminalCommands.isModified([{action: "modified"}]);
+			await terminalCommands.isModified([{action: "modified"}]);
 			await loaded.promise;
 
 			expect("test:json").not.toBeARegisteredCommand();
@@ -129,12 +129,12 @@ describe("terminal-commands", function () {
 
 		it("should unwatch the config when deleted", async function () {
 			const unwatch = promisificator();
-			this.terminalCommands.onUnwatch(unwatch.callback);
+			terminalCommands.onUnwatch(unwatch.callback);
 
 			await promisify(fs.unlink)(path.join(this.configFolder, "terminal-commands.json"));
 
 			try {
-				await this.terminalCommands.isModified([{action: "deleted"}]);
+				await terminalCommands.isModified([{action: "deleted"}]);
 			} catch (err) {
 				// this should error
 			}
@@ -145,27 +145,27 @@ describe("terminal-commands", function () {
 	});
 	describe("editConfig", function () {
 		it("should create and watch configFile if not exist", async function () {
-			await this.terminalCommands.editConfig();
+			await terminalCommands.editConfig();
 
-			await promisify(fs.access)(this.terminalCommands.configFile);
+			await promisify(fs.access)(terminalCommands.configFile);
 		});
 		it("should open configFile if exists", async function () {
 			atom.config.set("terminal-commands.configFile", await createConfig(this.configFolder, "terminal-commands.js", {"test:js": "test js"}));
 
 			spyOn(atom.workspace, "open");
 
-			await this.terminalCommands.editConfig();
+			await terminalCommands.editConfig();
 
-			expect(atom.workspace.open.calls.mostRecent().args[0]).toBe(this.terminalCommands.configFile);
+			expect(atom.workspace.open.calls.mostRecent().args[0]).toBe(terminalCommands.configFile);
 		});
 		it("should open configFile if not exists with defaultConfig.json text", async function () {
 			spyOn(atom.workspace, "open");
 
-			await this.terminalCommands.editConfig();
+			await terminalCommands.editConfig();
 
-			expect(atom.workspace.open.calls.mostRecent().args[0]).toBe(this.terminalCommands.configFile);
+			expect(atom.workspace.open.calls.mostRecent().args[0]).toBe(terminalCommands.configFile);
 
-			const configText = await promisify(fs.readFile)(this.terminalCommands.configFile, "utf8");
+			const configText = await promisify(fs.readFile)(terminalCommands.configFile, "utf8");
 			const defaultText = await promisify(fs.readFile)(path.resolve(__dirname, "../lib/default-config.json"), "utf8");
 
 			expect(configText).toBe(defaultText);
@@ -174,7 +174,7 @@ describe("terminal-commands", function () {
 	describe("runCommands function", function () {
 		beforeEach(async function () {
 			const loaded = promisificator();
-			this.terminalCommands.onLoaded(loaded.callback);
+			terminalCommands.onLoaded(loaded.callback);
 
 			atom.config.set("terminal-commands.configFile", await createConfig(this.configFolder, "terminal-commands.js", {
 				"test:string": "test test",
@@ -185,7 +185,7 @@ describe("terminal-commands", function () {
 				"test:project": "test ${project}",
 			}));
 
-			this.terminalCommands.consumeRunInTerminal({
+			terminalCommands.consumeRunInTerminal({
 				run: jasmine.createSpy()
 			});
 
@@ -196,7 +196,7 @@ describe("terminal-commands", function () {
 				path.join(this.configFolder, "testdir", "test2.js"),
 			];
 
-			spyOn(this.terminalCommands, "getPaths").and.returnValues(this.files);
+			spyOn(terminalCommands, "getPaths").and.returnValues(this.files);
 
 			await loaded.promise;
 
@@ -211,42 +211,42 @@ describe("terminal-commands", function () {
 
 			await this.dispatch.promise;
 
-			expect(this.terminalCommands.terminal.run).toHaveBeenCalledWith(["test test"]);
+			expect(terminalCommands.terminal.run).toHaveBeenCalledWith(["test test"]);
 		});
 		it("should run an array", async function () {
 			atom.commands.dispatch(atom.views.getView(atom.workspace), "test:array");
 
 			await this.dispatch.promise;
 
-			expect(this.terminalCommands.terminal.run).toHaveBeenCalledWith(["test 1", "test 2"]);
+			expect(terminalCommands.terminal.run).toHaveBeenCalledWith(["test 1", "test 2"]);
 		});
 		it("should replace filesPlaceholder", async function () {
 			atom.commands.dispatch(atom.views.getView(atom.workspace), "test:file");
 
 			await this.dispatch.promise;
 
-			expect(this.terminalCommands.terminal.run).toHaveBeenCalledWith([`test ${this.files[0]}`]);
+			expect(terminalCommands.terminal.run).toHaveBeenCalledWith([`test ${this.files[0]}`]);
 		});
 		it("should replace filePlaceholder", async function () {
 			atom.commands.dispatch(atom.views.getView(atom.workspace), "test:files");
 
 			await this.dispatch.promise;
 
-			expect(this.terminalCommands.terminal.run).toHaveBeenCalledWith([`test ${this.files.join(" ")}`]);
+			expect(terminalCommands.terminal.run).toHaveBeenCalledWith([`test ${this.files.join(" ")}`]);
 		});
 		it("should replace dirPlaceholder", async function () {
 			atom.commands.dispatch(atom.views.getView(atom.workspace), "test:dir");
 
 			await this.dispatch.promise;
 
-			expect(this.terminalCommands.terminal.run).toHaveBeenCalledWith([`test ${this.dir}`]);
+			expect(terminalCommands.terminal.run).toHaveBeenCalledWith([`test ${this.dir}`]);
 		});
 		it("should replace projectPlaceholder", async function () {
 			atom.commands.dispatch(atom.views.getView(atom.workspace), "test:project");
 
 			await this.dispatch.promise;
 
-			expect(this.terminalCommands.terminal.run).toHaveBeenCalledWith([`test ${this.configFolder}`]);
+			expect(terminalCommands.terminal.run).toHaveBeenCalledWith([`test ${this.configFolder}`]);
 		});
 		it("should error if no project to replace projectPlaceholder", async function () {
 			atom.project.setPaths([]);
@@ -256,7 +256,56 @@ describe("terminal-commands", function () {
 			await this.dispatch.promise;
 
 			expect(atom.notifications.addError).toHaveBeenCalled();
-			expect(this.terminalCommands.terminal.run).not.toHaveBeenCalled();
+			expect(terminalCommands.terminal.run).not.toHaveBeenCalled();
+		});
+	});
+	describe("terminal command objects", function () {
+		beforeEach(function () {
+			this.loadConfig = function (json) {
+				spyOn(terminalCommands, "requireConfigFile").and.callFake(() => {
+					terminalCommands.json = json;
+				});
+				terminalCommands.loadConfig();
+			};
+
+			spyOn(terminalCommands, "runCommands").and.returnValues(() => {});
+		});
+
+		it("should load a string as a command", function () {
+			this.loadConfig({ "test:test": "test" });
+			expect("test:test").toBeARegisteredCommand();
+			expect(terminalCommands.runCommands).toHaveBeenCalledWith("test");
+		});
+		it("should load an array as a set of commands", function () {
+			this.loadConfig({ "test:test": ["test1", "test2"] });
+			expect("test:test").toBeARegisteredCommand();
+			expect(terminalCommands.runCommands).toHaveBeenCalledWith(["test1", "test2"]);
+		});
+		it("should load an object with .commands", function () {
+			this.loadConfig({ "test:test": { commands: "test" } });
+			expect("test:test").toBeARegisteredCommand();
+			expect(terminalCommands.runCommands).toHaveBeenCalledWith("test");
+		});
+		it("should load an object with .key", function () {
+			this.loadConfig({ "test:test": { commands: "test", key: "alt-t" } });
+			expect("test:test").toBeARegisteredCommand();
+			expect("test:test").toBeARegisteredKeyBinding({ key: "alt-t" });
+			expect(terminalCommands.runCommands).toHaveBeenCalledWith("test");
+		});
+		it("should load an object with .selector", function () {
+			this.loadConfig({ "test:test": { commands: "test", key: "alt-t", selector: "body" } });
+			expect("test:test").not.toBeARegisteredCommand();
+			expect("test:test").toBeARegisteredCommand(document.body);
+			expect("test:test").not.toBeARegisteredKeyBinding({ key: "alt-t" });
+			expect("test:test").toBeARegisteredKeyBinding({ key: "alt-t", target: document.body });
+			expect(terminalCommands.runCommands).toHaveBeenCalledWith("test");
+		});
+		it("should load an object with .priority", function () {
+			this.loadConfig({ "test:test": { commands: "test", key: "alt-t", priority: 100 } });
+			expect("test:test").toBeARegisteredCommand();
+			expect("test:test").not.toBeARegisteredKeyBinding({ key: "alt-t" });
+			expect("test:test").toBeARegisteredKeyBinding({ key: "alt-t", priority: 100 });
+			expect(terminalCommands.runCommands).toHaveBeenCalledWith("test");
 		});
 	});
 });

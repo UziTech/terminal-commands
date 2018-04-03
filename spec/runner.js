@@ -1,3 +1,3 @@
-const { createRunner } = require("atom-jasmine2-test-runner");
+const { createRunner } = require("atom-jasmine3-test-runner");
 
 module.exports = createRunner({});
