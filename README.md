@@ -4,7 +4,7 @@
 
 # terminal-commands package
 
-Setup commands to run in the terminal from the command palette.
+Setup commands to run in the terminal from the command palette, context menu, or key binding.
 
 **Note**  Depends on [platformio-ide-terminal](https://github.com/platformio/platformio-atom-ide-terminal) to run!
 
@@ -16,20 +16,61 @@ Setup commands to run in the terminal from the command palette.
 // in ~/.atom/terminal-commands.json
 {
   "echo:file": "echo ${file}",
-  "echo:files": "echo ${files}",
-  "echo:dir": "echo ${dir}"
+  "echo:files": ["echo test", "echo ${files}"],
+  "echo:dir": {
+    "commands": "echo ${dir}",
+    "key": "alt-d",
+    "priority": 0
+  },
+  "echo:project": {
+    "commands": "echo ${project}",
+    "key": "alt-p",
+    "priority": 100,
+    "selector": ".tree-view"
+  }
 }
 ```
 
 ---
 
-![image](https://user-images.githubusercontent.com/97994/34899488-dde60bf4-f7be-11e7-98bd-71c8d922fa6b.png)
+![image](https://user-images.githubusercontent.com/97994/38253603-ae24915e-371c-11e8-9470-8db7d2f81fa3.png)
 
 ---
 
 ![image](https://user-images.githubusercontent.com/97994/34899525-1704ef86-f7bf-11e7-9088-d12d63ea2732.png)
 
----
+## Options
+
+The commands in `terminal-commands.json` should be formatted as one of the following:
+
+-   Single string command:
+
+```js
+{
+  "namespace:action": "command"
+}
+```
+
+-   Multiple string commands:
+
+```js
+{
+  "namespace:action": ["command 1", "command 2"],
+}
+```
+
+-   Commands object with the following keys:
+
+```js
+{
+  "namespace:action": {
+    "commands": "commands", // (required) Can be a string or an array of strings
+    "key": "alt-k", // (optional) A default key binding
+    "priority": 100, // (optional) Key binding priority. Default = 0
+    "selector": ".css-selector" // (optional) Selector to limit the key binding and context menu. Default = "atom-workspace"
+  }
+}
+```
 
 ## Placeholders
 
