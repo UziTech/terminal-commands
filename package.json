@@ -13,6 +13,11 @@
   "engines": {
     "atom": ">=1.0.0 <2.0.0"
   },
+  "scripts": {
+    "test": "atom --test spec",
+    "lint": "eslint .",
+    "semantic-release": "semantic-release"
+  },
   "atomTestRunner": "./spec/runner.js",
   "consumedServices": {
     "runInTerminal": {
@@ -31,8 +36,10 @@
     "promisificator": "^4.1.1"
   },
   "devDependencies": {
+    "@semantic-release/apm-config": "^6.0.1",
     "atom-jasmine3-test-runner": "^4.1.2",
     "eslint": "^5.16.0",
+    "semantic-release": "^15.13.8",
     "temp": "^0.9.0"
   }
 }
