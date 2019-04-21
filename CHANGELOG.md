@@ -1,3 +1,10 @@
+## [1.2.1](https://github.com/UziTech/terminal-commands/compare/v1.2.0...v1.2.1) (2019-04-21)
+
+
+### Bug Fixes
+
+* **deps:** update dependency atom-package-deps to ^5.1.0 ([dda6d7d](https://github.com/UziTech/terminal-commands/commit/dda6d7d))
+
 ## 1.2.0 (2018-04-03)
 
 -   Add key binding option to commands
