@@ -1,3 +1,10 @@
+## [1.3.1](https://github.com/UziTech/terminal-commands/compare/v1.3.0...v1.3.1) (2019-11-13)
+
+
+### Bug Fixes
+
+* Fix terminus service ([d6de5f9](https://github.com/UziTech/terminal-commands/commit/d6de5f9996f6c6881bd6670d0c936f9cfe07c7b6))
+
 # [1.3.0](https://github.com/UziTech/terminal-commands/compare/v1.2.2...v1.3.0) (2019-11-10)
 
 
