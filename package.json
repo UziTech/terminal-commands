@@ -21,15 +21,15 @@
   "atomTestRunner": "./spec/runner.js",
   "consumedServices": {
     "runInTerminal": {
-      "description": "Allow to run commands in terminal.",
+      "description": "Allow to run commands in platformio-ide-terminal.",
       "versions": {
         "0.14.5": "consumeRunInTerminal"
       }
     },
-    "terminal": {
-      "description": "Allow to run commands in terminal.",
+    "terminusTerminal": {
+      "description": "Allow to run commands in terminus.",
       "versions": {
-        "^1.0.0": "consumeTerminal"
+        "^1.1.1": "consumeTerminusTerminal"
       }
     }
   },
