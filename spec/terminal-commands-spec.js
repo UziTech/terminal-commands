@@ -54,9 +54,9 @@ describe("terminal-commands", function () {
 			const loaded = promisificator();
 			const watching = promisificator();
 
-			const terminalCommands = (await atom.packages.activatePackage("terminal-commands")).mainModule;
-			terminalCommands.onLoaded(loaded.callback);
-			terminalCommands.onWatching(watching.callback);
+			const terminalCommandsModule = (await atom.packages.activatePackage("terminal-commands")).mainModule;
+			terminalCommandsModule.onLoaded(loaded.callback);
+			terminalCommandsModule.onWatching(watching.callback);
 			await Promise.all([loaded.promise, watching.promise]);
 		});
 	});
