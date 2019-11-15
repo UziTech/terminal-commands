@@ -111,4 +111,7 @@ jobs:
       - name: NPM install
         run: npm ci
       - name: Release 🎉
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+          ATOM_ACCESS_TOKEN: ${{ secrets.ATOM_ACCESS_TOKEN }}
         run: npm run semantic-release
