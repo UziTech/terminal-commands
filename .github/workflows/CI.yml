@@ -18,7 +18,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     steps:
     - uses: actions/checkout@v1
-    - uses: UziTech/action-setup-atom@v1.0.0
+    - uses: UziTech/action-setup-atom@v1
       with:
         channel: ${{ matrix.channel }}
     - name: Atom version
@@ -47,7 +47,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
-      - uses: UziTech/action-setup-atom@v1.0.0
+      - uses: UziTech/action-setup-atom@v1
       - name: NPM install
         run: npm ci
       - name: Release 🎉
