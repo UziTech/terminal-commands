@@ -6,82 +6,17 @@ on:
       - master
 
 jobs:
-  linux-stable:
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v1
-    - uses: UziTech/action-setup-atom@v1.0.0
-    - name: Atom version
-      run: atom -v
-    - name: APM version
-      run: apm -v
-    - name: Install dependencies
-      run: apm ci
-    - name: Run tests
-      run: atom --test spec
-  linux-beta:
-    runs-on: ubuntu-latest
+  test:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+        channel: [stable, beta]
+    runs-on: ${{ matrix.os }}
     steps:
     - uses: actions/checkout@v1
     - uses: UziTech/action-setup-atom@v1.0.0
       with:
-        channel: 'beta'
-    - name: Atom version
-      run: atom -v
-    - name: APM version
-      run: apm -v
-    - name: Install dependencies
-      run: apm ci
-    - name: Run tests
-      run: atom --test spec
-  macos-stable:
-    runs-on: macos-latest
-    steps:
-    - uses: actions/checkout@v1
-    - uses: UziTech/action-setup-atom@v1.0.0
-    - name: Atom version
-      run: atom -v
-    - name: APM version
-      run: apm -v
-    - name: Install dependencies
-      run: apm ci
-    - name: Run tests
-      run: atom --test spec
-  macos-beta:
-    runs-on: macos-latest
-    steps:
-    - uses: actions/checkout@v1
-    - uses: UziTech/action-setup-atom@v1.0.0
-      with:
-        channel: 'beta'
-    - name: Atom version
-      run: atom -v
-    - name: APM version
-      run: apm -v
-    - name: Install dependencies
-      run: apm ci
-    - name: Run tests
-      run: atom --test spec
-  windows-stable:
-    runs-on: windows-latest
-    steps:
-    - uses: actions/checkout@v1
-    - uses: UziTech/action-setup-atom@v1.0.0
-    - name: Atom version
-      run: atom -v
-    - name: APM version
-      run: apm -v
-    - name: Install dependencies
-      run: apm ci
-    - name: Run tests
-      run: atom --test spec
-  windows-beta:
-    runs-on: windows-latest
-    steps:
-    - uses: actions/checkout@v1
-    - uses: UziTech/action-setup-atom@v1.0.0
-      with:
-        channel: 'beta'
+        channel: ${{ matrix.channel }}
     - name: Atom version
       run: atom -v
     - name: APM version
@@ -92,7 +27,7 @@ jobs:
       run: atom --test spec
 
   lint:
-    needs: [linux-stable, linux-beta, macos-stable, macos-beta, windows-stable, windows-beta]
+    needs: [test]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
@@ -103,7 +38,9 @@ jobs:
 
   release:
     needs: [lint]
-    if: github.repository == 'UziTech/terminal-commands' && github.ref == 'refs/heads/master'
+    if: github.repository == 'UziTech/terminal-commands' &&
+      github.ref == 'refs/heads/master' &&
+      !contains(github.event.head_commit.message, '[skip ci]')
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
