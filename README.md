@@ -1,5 +1,4 @@
-[![Build Status](https://travis-ci.org/UziTech/terminal-commands.svg?branch=master)](https://travis-ci.org/UziTech/terminal-commands)
-[![Build status](https://ci.appveyor.com/api/projects/status/o0h54ouxl2jtvvfm/branch/master?svg=true)](https://ci.appveyor.com/project/UziTech/terminal-commands)
+[![Actions Status](https://github.com/UziTech/terminal-commands/workflows/CI/badge.svg)](https://github.com/UziTech/terminal-commands/actions)
 [![Dependency Status](https://david-dm.org/UziTech/terminal-commands.svg)](https://david-dm.org/UziTech/terminal-commands)
 
 # terminal-commands package
