@@ -31,7 +31,7 @@ jobs:
       run: atom --test spec
 
   Lint:
-    needs: [test]
+    needs: [Test]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
@@ -41,8 +41,8 @@ jobs:
         run: npm run lint
 
   Release:
-    needs: [lint]
-    if: github.repository == 'UziTech/terminal-commands' &&
+    needs: [Lint]
+    if: startsWith(github.repository, 'UziTech/') &&
       github.ref == 'refs/heads/master'
     runs-on: ubuntu-latest
     steps:
@@ -57,7 +57,7 @@ jobs:
         run: npm run semantic-release
 
   Skip:
-    if: "contains(github.event.head_commit.message, '[skip ci]')"
+    if: contains(github.event.head_commit.message, '[skip ci]')
     runs-on: ubuntu-latest
     steps:
       - name: Skip CI 🚫
