@@ -5,14 +5,11 @@ on:
     branches:
       - master
 
+env:
+  CI: true
+
 jobs:
-  skip:
-    if: "contains(github.event.head_commit.message, '[skip ci]')"
-    runs-on: ubuntu-latest
-    steps:
-      - name: Skip CI
-        run: echo skipped
-  test:
+  Test 👩🏾‍💻:
     if: "!contains(github.event.head_commit.message, '[skip ci]')"
     strategy:
       matrix:
@@ -33,17 +30,17 @@ jobs:
     - name: Run tests
       run: atom --test spec
 
-  lint:
+  Lint ✨:
     needs: [test]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
       - name: NPM install
         run: npm ci
-      - name: Lint ✨
+      - name: Lint
         run: npm run lint
 
-  release:
+  Release 🎉:
     needs: [lint]
     if: github.repository == 'UziTech/terminal-commands' &&
       github.ref == 'refs/heads/master'
@@ -53,8 +50,15 @@ jobs:
       - uses: UziTech/action-setup-atom@v1.0.0
       - name: NPM install
         run: npm ci
-      - name: Release 🎉
+      - name: Release
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
           ATOM_ACCESS_TOKEN: ${{ secrets.ATOM_ACCESS_TOKEN }}
         run: npm run semantic-release
+
+  Skip CI 🚫:
+    if: "contains(github.event.head_commit.message, '[skip ci]')"
+    runs-on: ubuntu-latest
+    steps:
+      - name: Skip CI
+        run: echo skip ci
