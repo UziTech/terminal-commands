@@ -1,3 +1,10 @@
+## [1.3.2](https://github.com/UziTech/terminal-commands/compare/v1.3.1...v1.3.2) (2019-11-16)
+
+
+### Bug Fixes
+
+* **ci:** use GitHub Actions for release ([b9508fb](https://github.com/UziTech/terminal-commands/commit/b9508fb24c2e9bd4d3f82e388c1afd2449d70281))
+
 ## [1.3.1](https://github.com/UziTech/terminal-commands/compare/v1.3.0...v1.3.1) (2019-11-13)
 
 
