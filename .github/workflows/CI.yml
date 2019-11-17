@@ -31,7 +31,7 @@ jobs:
       run: atom --test spec
 
   Lint:
-    needs: [Test]
+    if: "!contains(github.event.head_commit.message, '[skip ci]')"
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
@@ -41,7 +41,7 @@ jobs:
         run: npm run lint
 
   Release:
-    needs: [Lint]
+    needs: [Test, Lint]
     if: startsWith(github.repository, 'UziTech/') &&
       github.ref == 'refs/heads/master'
     runs-on: ubuntu-latest
