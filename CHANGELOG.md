@@ -1,3 +1,10 @@
+## [1.3.3](https://github.com/UziTech/terminal-commands/compare/v1.3.2...v1.3.3) (2020-02-15)
+
+
+### Bug Fixes
+
+* add services for termination and platformide ([d756bb1](https://github.com/UziTech/terminal-commands/commit/d756bb14da18476212383a8129dd21ebd46dbc6e))
+
 ## [1.3.2](https://github.com/UziTech/terminal-commands/compare/v1.3.1...v1.3.2) (2019-11-16)
 
 
