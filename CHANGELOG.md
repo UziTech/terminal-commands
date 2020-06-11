@@ -1,3 +1,10 @@
+## [1.3.4](https://github.com/UziTech/terminal-commands/compare/v1.3.3...v1.3.4) (2020-06-11)
+
+
+### Bug Fixes
+
+* **deps:** update dependency promisificator to ^4.2.0 ([a8cc9ab](https://github.com/UziTech/terminal-commands/commit/a8cc9abfdd28ee351da0e0096748cf7721566332))
+
 ## [1.3.3](https://github.com/UziTech/terminal-commands/compare/v1.3.2...v1.3.3) (2020-02-15)
 
 
