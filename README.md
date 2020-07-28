@@ -5,7 +5,7 @@
 
 Setup commands to run in the terminal from the command palette, context menu, or key binding.
 
-**Note**  Depends on [platformio-ide-terminal](https://github.com/platformio/platformio-atom-ide-terminal) to run!
+**Note**  Depends on a terminal package like [x-terminal](https://atom.io/packages/x-terminal) to run!
 
 ![screenshot](https://user-images.githubusercontent.com/97994/36390238-fd6c8a2c-1567-11e8-8517-d4986ac2fde2.gif)
 
