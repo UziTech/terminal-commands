@@ -1,3 +1,10 @@
+## [1.3.5](https://github.com/UziTech/terminal-commands/compare/v1.3.4...v1.3.5) (2020-07-28)
+
+
+### Bug Fixes
+
+* recommend x-terminal ([324a360](https://github.com/UziTech/terminal-commands/commit/324a360f84b7165e419c0243bd0849296744f0c9))
+
 ## [1.3.4](https://github.com/UziTech/terminal-commands/compare/v1.3.3...v1.3.4) (2020-06-11)
 
 
