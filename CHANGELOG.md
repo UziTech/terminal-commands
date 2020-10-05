@@ -1,3 +1,10 @@
+## [1.3.7](https://github.com/UziTech/terminal-commands/compare/v1.3.6...v1.3.7) (2020-10-05)
+
+
+### Bug Fixes
+
+* Activation error ([9bc0a13](https://github.com/UziTech/terminal-commands/commit/9bc0a137419cf3274751a98f818fddf127fbd955))
+
 ## [1.3.6](https://github.com/UziTech/terminal-commands/compare/v1.3.5...v1.3.6) (2020-10-05)
 
 
