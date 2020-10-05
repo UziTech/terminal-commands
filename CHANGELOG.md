@@ -1,3 +1,10 @@
+## [1.3.6](https://github.com/UziTech/terminal-commands/compare/v1.3.5...v1.3.6) (2020-10-05)
+
+
+### Bug Fixes
+
+* save multiple terminals ([8d3c1b4](https://github.com/UziTech/terminal-commands/commit/8d3c1b4684d0a1c14ee10f423b4c16e7512cc49a))
+
 ## [1.3.5](https://github.com/UziTech/terminal-commands/compare/v1.3.4...v1.3.5) (2020-07-28)
 
 
