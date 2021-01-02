@@ -42,6 +42,12 @@
       "versions": {
         "^1.1.0": "consumeRunInTerminal"
       }
+    },
+    "terminal": {
+      "description": "Allow to run commands in terminal.",
+      "versions": {
+        "^1.0.0": "consumeRunInTerminal"
+      }
     }
   },
   "dependencies": {
