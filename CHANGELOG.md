@@ -1,3 +1,10 @@
+# [1.4.0](https://github.com/UziTech/terminal-commands/compare/v1.3.7...v1.4.0) (2021-01-02)
+
+
+### Features
+
+* consume terminal service ([7c34723](https://github.com/UziTech/terminal-commands/commit/7c34723a45cefbc0533a4cb442fb77c660393903))
+
 ## [1.3.7](https://github.com/UziTech/terminal-commands/compare/v1.3.6...v1.3.7) (2020-10-05)
 
 
