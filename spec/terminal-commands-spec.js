@@ -46,6 +46,7 @@ describe("terminal-commands", function () {
 		it("should not watch the configFile if it does not exist", async function () {
 			const unwatch = promisificator();
 			terminalCommands.onUnwatch(unwatch.callback);
+			atom.config.set("terminal-commands.configFile", path.join(configFolder, "not-exist2.json"));
 			await unwatch.promise;
 		});
 
