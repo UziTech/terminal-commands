@@ -1,3 +1,10 @@
+# [1.5.0](https://github.com/UziTech/terminal-commands/compare/v1.4.0...v1.5.0) (2021-05-27)
+
+
+### Features
+
+* add line placeholder ([#178](https://github.com/UziTech/terminal-commands/issues/178)) ([b201a7a](https://github.com/UziTech/terminal-commands/commit/b201a7af74005493227648427bb022b6382aad20))
+
 # [1.4.0](https://github.com/UziTech/terminal-commands/compare/v1.3.7...v1.4.0) (2021-01-02)
 
 
