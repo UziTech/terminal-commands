@@ -312,7 +312,44 @@ describe("terminal-commands", function () {
 
 			await dispatch.promise;
 
-			expect(terminalCommands.terminals[0].run).toHaveBeenCalledWith(['test 123']);
+			expect(terminalCommands.terminals[0].run).toHaveBeenCalledWith(["test 123"]);
+		});
+	});
+	describe("when called with an active pane item", function () {
+		let currentFile;
+		const mockEvent = {
+			closest() {
+				return false;
+			}
+		};
+		beforeEach(async function () {
+			const loaded = promisificator();
+			terminalCommands.onLoaded(loaded.callback);
+
+			atom.config.set(
+				"terminal-commands.configFile",
+				await createConfig(configFolder, "terminal-commands.js", {})
+			);
+
+			// build the current file
+			currentFile = path.join(configFolder, "foo.js");
+			await promisify(fs.writeFile)(currentFile, "\n\nfoo\nbar");
+			// buffer position is 0 indexed, but "line number" is 1 indexed
+			const currentPosition = [2, 0];
+
+			// open the file and move cursor to line 3
+			await atom.workspace.open(currentFile);
+			atom.workspace.getActivePaneItem().setCursorBufferPosition(currentPosition);
+			await loaded.promise;
+		});
+		it("getLine should return the current line number", function () {
+			expect(terminalCommands.getLine()).toBe(3);
+		});
+		it("getPaths should return an array containing the currently open file", function () {
+			const paths = terminalCommands.getPaths(mockEvent);
+			expect(paths instanceof Array).toBeTrue();
+			expect(paths.length).toBe(1);
+			expect(paths[0]).toBe(currentFile);
 		});
 	});
 	describe("terminal command objects", function () {
