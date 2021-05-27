@@ -230,6 +230,7 @@ describe("terminal-commands", function () {
 				"test:files": "test ${files}",
 				"test:dir": "test ${dir}",
 				"test:project": "test ${project}",
+				"test:line": "test ${line}",
 			}));
 
 			terminalCommands.consumeRunInTerminal({
@@ -244,6 +245,7 @@ describe("terminal-commands", function () {
 			];
 
 			spyOn(terminalCommands, "getPaths").and.returnValues(files);
+			spyOn(terminalCommands, "getLine").and.returnValue(123);
 
 			await loaded.promise;
 
@@ -304,6 +306,13 @@ describe("terminal-commands", function () {
 
 			expect(atom.notifications.addError).toHaveBeenCalled();
 			expect(terminalCommands.terminals[0].run).not.toHaveBeenCalled();
+		});
+		it("should replace linePlaceholder", async function () {
+			atom.commands.dispatch(atom.views.getView(atom.workspace), "test:line");
+
+			await dispatch.promise;
+
+			expect(terminalCommands.terminals[0].run).toHaveBeenCalledWith(['test 123']);
 		});
 	});
 	describe("terminal command objects", function () {

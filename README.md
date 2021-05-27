@@ -80,3 +80,4 @@ The command target will be the active editor if from the command palette, or sel
 -   `${files}` - Replaced with the targets file paths separated by space
 -   `${dir}` - Replaced with the first target directory path
 -   `${project}` - Replaced with the first target file's project path
+-   `${line}` - Replaced with the line number of the most recently added cursor. (_Only works_ when called from the command palette.)
