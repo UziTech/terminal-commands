@@ -335,15 +335,23 @@ describe("terminal-commands", function () {
 			currentFile = path.join(configFolder, "foo.js");
 			await promisify(fs.writeFile)(currentFile, "\n\nfoo\nbar");
 			// buffer position is 0 indexed, but "line number" is 1 indexed
-			const currentPosition = [2, 0];
+			const currentPosition = [1, 0];
 
-			// open the file and move cursor to line 3
+			// open the file and move cursor to line 2
 			await atom.workspace.open(currentFile);
 			atom.workspace.getActivePaneItem().setCursorBufferPosition(currentPosition);
 			await loaded.promise;
 		});
 		it("getLine should return the current line number", function () {
+			expect(terminalCommands.getLine()).toBe(2);
+		});
+		it("getLine should return the last cursor line number", function () {
+			atom.workspace.getActivePaneItem().addCursorAtBufferPosition([2, 1]);
 			expect(terminalCommands.getLine()).toBe(3);
+		});
+		it("getLine should return the last cursor line number", function () {
+			atom.workspace.getActivePaneItem().addCursorAtBufferPosition([0, 0]);
+			expect(terminalCommands.getLine()).toBe(1);
 		});
 		it("getPaths should return an array containing the currently open file", function () {
 			const paths = terminalCommands.getPaths(mockEvent);
