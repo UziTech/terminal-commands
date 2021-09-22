@@ -55,10 +55,10 @@
     "promisificator": "^4.2.0"
   },
   "devDependencies": {
-    "@semantic-release/apm-config": "^8.0.0",
+    "@semantic-release/apm-config": "^9.0.1",
     "atom-jasmine3-test-runner": "^5.2.8",
     "eslint": "^7.32.0",
-    "semantic-release": "^17.4.7",
+    "semantic-release": "^18.0.0",
     "temp": "^0.9.4"
   }
 }
